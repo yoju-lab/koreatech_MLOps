@@ -1,0 +1,9 @@
+services:
+  fastapi:
+    container_name: koreatech_MLOps_app_fastapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    command: sleep infinity
