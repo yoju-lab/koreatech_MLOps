@@ -1,0 +1,6 @@
+outs:
+- md5: 4ab41bfbe48979ebe73d2a27c4fe4f11.dir
+  size: 3912791
+  nfiles: 5
+  hash: md5
+  path: credit_models
