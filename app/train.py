@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score
 import joblib
 import os
-model_dir = "model"
+model_dir = "models"
 if not os.path.exists(model_dir):
     os.makedirs(model_dir)
     print(f"'{model_dir}' 폴더가 생성되었습니다.")
@@ -41,16 +41,18 @@ for params in param_list:
     pipe.fit(X_train, y_train)
     acc = accuracy_score(y_test, pipe.predict(X_test))
     train_acc = accuracy_score(y_train, pipe.predict(X_train))
-    joblib.dump(pipe, f"pipeline_n{params['n_estimators']}_d{params['max_depth']}.pkl")   
+    model_filename = f"pipeline_n{params['n_estimators']}_d{params['max_depth']}.pkl"
+    model_path = os.path.join(model_dir, model_filename)
+    joblib.dump(pipe, model_path)   
     run_results.append({
         "run_name": run_name,
         "accuracy": acc,
         "train_acc": train_acc,
-        "model_uri": f"pipeline_n{params['n_estimators']}_d{params['max_depth']}.pkl"
+        "model_uri": model_path
     }) 
     
     #결과 출력 
-    print(f"  {run_name}: {acc:.4f}/ {train_acc:.4f} |  pipeline_n{params['n_estimators']}_d{params['max_depth']}.pkl")
+    print(f"  {run_name}: {acc:.4f}/ {train_acc:.4f} |  {model_path}")
 # 실험 후 — 가장 좋은 모델 자동 선택
 best = max(run_results, key=lambda x: x["accuracy"])
 print(f"🏆 최고 모델: {best['run_name']} | accuracy: {best['accuracy']:.4f}")
