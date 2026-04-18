@@ -7,7 +7,6 @@ pydantic-settings==2.2.1
 pydantic_core==2.18.2
 python-multipart==0.0.9
 email_validator==2.1.1
-mlflow==3.11.1
 
 # Database
 beanie==1.25.0
@@ -58,4 +57,5 @@ pytest-playwright==0.4.4
 pytest-asyncio==0.23.6
 
 # Data Version Control
+mlflow==3.11.1
 dvc
