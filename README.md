@@ -20,13 +20,13 @@ graph TD
     end
 
     subgraph "Experiment & Training"
-        DVC --> T1[train_with_mlflow.py]
+        DVC --> T1[11_train_with_mlflow.py]
         T1 --> MF[MLflow Tracking UI: Port 8000]
         MF --> REG[Model Registry]
     end
 
     subgraph "Management & Registry"
-        REG --> P1[predict.py: Lifecycle Demo]
+        REG --> P1[12_predict.py: Lifecycle Demo]
         P1 -- "Rollback / Alias Switch" --> REG
     end
 
@@ -48,14 +48,15 @@ graph TD
 
 ```text
 .
-├── app/                        # 파이썬 스크립트 및 FastAPI 앱
-│   ├── app.py                  # FastAPI 기반 모델 서빙 API (Production 모델 로드)
-│   ├── train_with_mlflow.py    # MLflow 기반 학습 스크립트 (로그 기록 & 모델 등록)
-│   ├── predict.py              # 모델 라이프사이클 관리 데모 (별칭 변경 & 롤백)
-│   ├── train.py                # 기초 학습용 스크립트 (로컬 pkl 저장)
-│   ├── credit_fraud_pipeline_prac_done.py  # 신용카드 사기 탐지 파이프라인 (완성본)
-│   ├── credit_fraud_pipeline_prac.py       # 신용카드 사기 탐지 파이프라인 (연습용 템플릿)
+├── src/                        # 파이썬 스크립트 및 핵심 로직
+│   ├── 10_train.py             # 기초 학습용 스크립트 (로컬 pkl 저장)
+│   ├── 11_train_with_mlflow.py # MLflow 기반 학습 스크립트 (로그 기록 & 모델 등록)
+│   ├── 12_predict.py           # 모델 라이프사이클 관리 데모 (별칭 변경 & 롤백)
+│   ├── 20_credit_fraud_pipeline_prac.py       # 신용카드 사기 탐지 파이프라인 (연습용 템플릿)
+│   ├── 21_credit_fraud_pipeline_prac_done.py  # 신용카드 사기 탐지 파이프라인 (완성본)
 │   └── requirements.txt        # 프로젝트 의존 패키지 목록
+├── app/                        # 서비스 배포용 코드
+│   └── app.py                  # FastAPI 기반 모델 서빙 API (Production 모델 로드)
 ├── datasets/                   # DVC로 관리되는 데이터셋 저장소
 │   ├── iris_data.csv
 │   └── credit_fraud_dataset.csv
@@ -76,7 +77,7 @@ graph TD
 ### 1. 환경 설정 및 데이터 준비
 ```bash
 # 패키지 설치
-pip install -r app/requirements.txt
+pip install -r src/requirements.txt
 
 # 데이터 가져오기 (DVC 원격 저장소 설정 필요)
 dvc pull
@@ -90,9 +91,9 @@ mlflow ui --port 8000 --host 0.0.0.0
 ```
 
 ### 3. 모델 학습 및 등록
-`train_with_mlflow.py`를 실행하면 학습 결과가 기록되고, 최고 성능 모델이 `production` 별칭과 함께 레지스트리에 등록됩니다.
+`11_train_with_mlflow.py`를 실행하면 학습 결과가 기록되고, 최고 성능 모델이 `production` 별칭과 함께 레지스트리에 등록됩니다.
 ```bash
-python app/train_with_mlflow.py
+python src/11_train_with_mlflow.py
 ```
 
 ### 4. 실시간 모델 서빙 (FastAPI)
@@ -120,7 +121,7 @@ uvicorn app.app:app --host 0.0.0.0 --port 5000
 
 > [!TIP]
 > **실습 포인트**
-> 1. **모델 관리**: `app/predict.py`를 통해 모델 버전을 별칭(Alias)으로 관리하고 문제 발생 시 즉시 롤백하는 과정을 실습해 보세요.
+> 1. **모델 관리**: `src/12_predict.py`를 통해 모델 버전을 별칭(Alias)으로 관리하고 문제 발생 시 즉시 롤백하는 과정을 실습해 보세요.
 > 2. **포트 관리**: MLflow UI는 기본적으로 **8000번** 포트를 사용하도록 설정되어 있습니다.
 
 ---

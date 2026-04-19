@@ -2,3 +2,5 @@ README copy.md
 **/*.pkl
 /models
 /credit_models
+mlartifacts/
+mlflow.db
