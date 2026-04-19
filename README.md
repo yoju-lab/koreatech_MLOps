@@ -99,9 +99,9 @@ python src/11_train_with_mlflow.py
 ### 4. 실시간 모델 서빙 (FastAPI)
 등록된 `production` 모델을 사용하여 API 서버를 구동합니다.
 ```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000
+uvicorn app.main:app --host 0.0.0.0 --port 8000  --reload
 ```
-
+@http://localhost:8000/docs
 ---
 
 ## 🛠️ Tech Stack

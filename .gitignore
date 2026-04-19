@@ -5,3 +5,6 @@ README copy.md
 mlartifacts/
 mlflow.db
 **/__pycache__/
+/mlartifacts
+# .dvc/
+!datasets/*.csv
