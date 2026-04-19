@@ -26,7 +26,7 @@ mlflow.set_experiment(experiment_name)                       # 없으면 자동 
  
 # ── 1. 데이터 로드 및 전처리 ──────────────────────────────────
 try:
-    df = pd.read_csv("data/iris_data.csv")                   # DVC로 관리되는 데이터 파일 로드
+    df = pd.read_csv("datasets/iris_data.csv")                   # DVC로 관리되는 데이터 파일 로드
     df = df.select_dtypes(include=['number']).dropna()        # 수치형 컬럼만 선택 + 결측치 행 제거
     X = df.drop('target', axis=1)                            # 입력 특성 (꽃받침/꽃잎 길이·너비)
     y = df['target']                                         # 정답 레이블 (0=setosa, 1=versicolor, 2=virginica)
