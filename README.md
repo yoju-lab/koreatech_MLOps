@@ -21,7 +21,7 @@ graph TD
 
     subgraph "Experiment & Training"
         DVC --> T1[11_train_with_mlflow.py]
-        T1 --> MF[MLflow Tracking UI: Port 8000]
+        T1 --> MF[MLflow Tracking UI: Port 5000]
         MF --> REG[Model Registry]
     end
 
@@ -56,7 +56,7 @@ graph TD
 │   ├── 21_credit_fraud_pipeline_prac_done.py  # 신용카드 사기 탐지 파이프라인 (완성본)
 │   └── requirements.txt        # 프로젝트 의존 패키지 목록
 ├── app/                        # 서비스 배포용 코드
-│   └── app.py                  # FastAPI 기반 모델 서빙 API (Production 모델 로드)
+│   └── main.py                 # FastAPI 기반 모델 서빙 API (Production 모델 로드)
 ├── datasets/                   # DVC로 관리되는 데이터셋 저장소
 │   ├── iris_data.csv
 │   └── credit_fraud_dataset.csv
@@ -86,8 +86,8 @@ dvc pull
 ### 2. 실험 추적 서버 실행 (MLflow)
 MLflow UI를 실행하여 실시간으로 실험 결과를 모니터링합니다.
 ```bash
-# 8000번 포트로 UI 실행
-mlflow ui --port 8000 --host 0.0.0.0
+# 5000번 포트로 UI 실행
+mlflow ui --port 5000 --host 0.0.0.0
 ```
 
 ### 3. 모델 학습 및 등록
@@ -99,7 +99,7 @@ python src/11_train_with_mlflow.py
 ### 4. 실시간 모델 서빙 (FastAPI)
 등록된 `production` 모델을 사용하여 API 서버를 구동합니다.
 ```bash
-uvicorn app.app:app --host 0.0.0.0 --port 5000
+uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 ---
@@ -122,7 +122,7 @@ uvicorn app.app:app --host 0.0.0.0 --port 5000
 > [!TIP]
 > **실습 포인트**
 > 1. **모델 관리**: `src/12_predict.py`를 통해 모델 버전을 별칭(Alias)으로 관리하고 문제 발생 시 즉시 롤백하는 과정을 실습해 보세요.
-> 2. **포트 관리**: MLflow UI는 기본적으로 **8000번** 포트를 사용하도록 설정되어 있습니다.
+> 2. **포트 관리**: MLflow UI는 기본적으로 **5000번** 포트를 사용하도록 설정되어 있습니다.
 
 ---
 최종 수정일: 2026-04-19

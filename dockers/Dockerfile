@@ -21,6 +21,6 @@ RUN git clone https://github.com/yoju-lab/koreatech_MLOps
 WORKDIR /apps/koreatech_MLOps
 
 # RUN pip install --no-cache-dir -r ./requirements.txt
-RUN pip install --no-cache-dir -r ./app/requirements.txt
+RUN pip install --no-cache-dir -r ./src/requirements.txt
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
