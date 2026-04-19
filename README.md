@@ -5,7 +5,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-Serving-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/Docker-Deployment-2496ED?style=flat-square&logo=docker)](https://www.docker.com/)
 
-이 프로젝트는 데이터 관리부터 실험 추적, 모델 레지스트리 관리 및 배포까지 아우르는 **End-to-End MLOps 파이프라인** 예제입니다.
+이 프로젝트는 데이터 관리부터 실험 추적, GitHub Actions를 통한 자동화, 모델 레지스트리 관리 및 배포까지 아우르는 **End-to-End MLOps 파이프라인** 예제입니다.
 
 ---
 
@@ -23,6 +23,7 @@ graph TD
         DVC --> T1[11_train_with_mlflow.py]
         T1 --> MF[MLflow Tracking UI: Port 5000]
         MF --> REG[Model Registry]
+        GHA[GitHub Actions] -- "Auto Train" --> T1
     end
 
     subgraph "Management & Registry"
@@ -65,6 +66,10 @@ graph TD
 ├── dockers/                    # 컨테이너화를 위한 Docker 설정
 │   ├── Dockerfile
 │   └── docker-compose.yml
+├── docs/                       # 프로젝트 관련 문서 및 가이드 (PDF, DOCX)
+│   ├── GitHub Actions 및 DVC 연동 가이드.pdf
+│   ├── mlops_실습자료.docx
+│   └── ...
 ├── mlflow.db                   # MLflow 메타데이터 DB (SQLite)
 ├── mlartifacts/                # MLflow 모델 및 결과물 저장소
 └── README.md                   # 프로젝트 문서 (현재 파일)
@@ -99,9 +104,19 @@ python src/11_train_with_mlflow.py
 ### 4. 실시간 모델 서빙 (FastAPI)
 등록된 `production` 모델을 사용하여 API 서버를 구동합니다.
 ```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000  --reload
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
-@http://localhost:8000/docs
+- **API 접속 주소**: [http://localhost:8000](http://localhost:8000)
+- **Swagger UI (API 문서)**: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## 🤖 CI/CD (GitHub Actions)
+이 프로젝트는 GitHub Actions를 통해 모델 학습 자동화를 구현했습니다.
+- **워크플로우**: `.github/workflows/train.yml`
+- **트리거**: `src/` 디렉토리 내 코드 변경 시 자동 실행
+- **역할**: `src/11_train_with_mlflow.py` 실행을 통한 자동 모델 학습 및 MLflow 기록
+
 ---
 
 ## 🛠️ Tech Stack
